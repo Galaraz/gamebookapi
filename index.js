@@ -1,6 +1,6 @@
 const express = require('express');
 const bodyParser = require('body-parser');
-const CrushRoute = require('./routes/CrushRoute');
+const BookRoute = require('./routes/BookRoute');
 const LoginRoute = require('./routes/LoginRoute');
 
 const SUCCESS = 200;
@@ -25,16 +25,16 @@ app.get('/', (_request, response) => {
 });
 app.post('/login', Middlewares.emailMiddleware, Middlewares.passwordMiddleware);
 
-app.post('/crush', Middlewares.authMiddleware, middlewaresCrush);
+app.post('/book', Middlewares.authMiddleware, middlewaresCrush);
 
-app.get('/crush/search', Middlewares.authMiddleware);
+app.get('/book/search', Middlewares.authMiddleware);
 
-app.put('/crush/:id', Middlewares.authMiddleware, middlewaresCrush);
+app.put('/book/:id', Middlewares.authMiddleware, middlewaresCrush);
 
-app.delete('/crush/:id', Middlewares.authMiddleware);
+app.delete('/book/:id', Middlewares.authMiddleware);
 
 app.use('/login', LoginRoute);
-app.use('/crush', CrushRoute);
+app.use('/book', BookRoute);
 
 app.listen(PORT, () => {
   console.log(`Aplicaçao Online rodando na Porta ${PORT}  `);

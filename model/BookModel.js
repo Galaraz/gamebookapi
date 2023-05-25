@@ -1,22 +1,19 @@
 const fs = require('fs').promises;
 const path = require('path');
-
-
-
+const crushFile = 'crush.json';
 const supabase  = require("./supabase");
+
 
 async function  getsupabase(){
 
-  let { data: GameBook, error } = await supabase
-  .from('GameBook')
+  let { data: paragrafos, error } = await supabase
+  .from('paragrafos')
   .select('*')
 
-  console.log(GameBook,"entrou na gamebook");
+  console.log(paragrafos,"entrou na gamebook");
 }
 
 
-
-const crushFile = 'crush.json';
 
 async function readCrushFile() {
   return JSON.parse(await fs.readFile(path.resolve(__dirname, '..', crushFile)));

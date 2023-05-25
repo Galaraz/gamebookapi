@@ -1,6 +1,6 @@
-const { readCrushFile, writeCrushFile,getsupabase } = require('../model/CrushModel');
+const { readCrushFile, writeCrushFile,getsupabase } = require('../model/BookModel');
 
-const getAllCrushs = async (_req, res) => {
+const getAllBooks = async (_req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR CRUSHS');
   try {
     const result = await getsupabase();
@@ -11,7 +11,7 @@ const getAllCrushs = async (_req, res) => {
   }
 };
 
-const getOneCrush = async (req, res) => {
+const getOneBook = async (req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR UM CRUSH');
   try {
     const { id: crushId } = req.params;
@@ -27,7 +27,7 @@ const getOneCrush = async (req, res) => {
     res.status(500).json({ message: 'errou ' });
   }
 };
-const addCrush = async (req, res) => {
+const addBook = async (req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO ADICIONAR UM CRUSH');
   try {
     const result = await readCrushFile();
@@ -42,7 +42,7 @@ const addCrush = async (req, res) => {
   }
 };
 
-const editCrush = async (req, res) => {
+const editBook = async (req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO EDITAR UM CRUSH');
   try {
     const { id: crushId } = req.params;
@@ -60,7 +60,7 @@ const editCrush = async (req, res) => {
   }
 };
 
-const deleteCrush = async (req, res) => {
+const deleteBook = async (req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO DELETAR CRUSHS');
   try {
     const { id: crushId } = req.params;
@@ -75,7 +75,7 @@ const deleteCrush = async (req, res) => {
     res.status(500).send('Erro ao buscar crush!');
   }
 };
-const searchCrush = async (req, res, next) => {
+const searchBook = async (req, res, next) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR CRUSHS');
   try {
     const { q } = req.query;
@@ -89,4 +89,4 @@ const searchCrush = async (req, res, next) => {
     res.status(500).send('Erro ao buscar crush!');
   }
 };
-module.exports = { getAllCrushs, getOneCrush, editCrush, addCrush, deleteCrush, searchCrush };
+module.exports = { getAllBooks, getOneBook, editBook, addBook, deleteBook, searchBook };
