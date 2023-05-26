@@ -1,4 +1,4 @@
-const { readCrushFile, writeCrushFile,getsupabase } = require('../model/BookModel');
+const { readCrushFile, writeCrushFile,onePage,getsupabase } = require('../model/BookModel');
 
 const getAllBooks = async (_req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR CRUSHS');
@@ -12,18 +12,24 @@ const getAllBooks = async (_req, res) => {
 };
 
 const getOneBook = async (req, res) => {
-  console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR UM CRUSH');
+  console.log('[BOOK CONTROLLER] : CHAMOU O MÉTODO BUSCAR UMA PAGINA');
   try {
-    const { id: crushId } = req.params;
-    const result = await readCrushFile();
-    const crushResult = result.find(({ id }) => id === parseFloat(crushId));
-
-    if (!crushResult) {
-      return res.status(404).json({ message: 'Crush não encontrado' });
+    const { id: pageId } = req.params;
+    const result = await onePage(pageId);
+    
+    if (!result) {
+      return res.status(404).json({ message: 'Página não encontrada' });
     }
-    return res.status(200).json(crushResult);
+    const bookResult = result.find(({ id }) => id === parseFloat(pageId));
+    console.log(bookResult);
+    if (!bookResult) {
+      return res.status(404).json({ message: 'pagina não encontrada' });
+    }
+
+
+    return res.status(200).json(bookResult);
   } catch (error) {
-    console.log(`[CRUSH CONTROLLER] : buscar => ${error}`);
+    console.log(`[BOOK CONTROLLER] : buscar => ${error}`);
     res.status(500).json({ message: 'errou ' });
   }
 };
