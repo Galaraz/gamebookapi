@@ -25,7 +25,8 @@ app.get('/', (_request, response) => {
 });
 app.post('/login', Middlewares.emailMiddleware, Middlewares.passwordMiddleware);
 
-app.post('/book', Middlewares.authMiddleware, middlewaresCrush);
+app.post('/book');
+// app.post('/book', Middlewares.authMiddleware, middlewaresCrush);
 
 app.get('/book/search', Middlewares.authMiddleware);
 

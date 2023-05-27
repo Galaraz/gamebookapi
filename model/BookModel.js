@@ -30,6 +30,25 @@ async function onePage(pageId){
   // console.log(paragrafos, 'entrou na gamebook');
   return paragrafos
 } 
+async function addParagrafo(paragrafo) {
+  const paragrafoData = {
+    par_titulo: paragrafo.par_titulo,
+    par_imagem: paragrafo.par_imagem,
+    par_texto: paragrafo.par_texto,
+    par_id_pagina: paragrafo.par_id_pagina
+  };
+ 
+  const { data, error } = await supabase
+    .from('paragrafos')
+    .insert([paragrafoData], { returning: 'minimal' });
+
+  if (error) {
+    console.error(error);
+    return;
+  }
+
+  console.log('Parágrafo adicionado com sucesso:',data);
+}
 
 async function readCrushFile() {
   return JSON.parse(await fs.readFile(path.resolve(__dirname, '..', crushFile)));
@@ -39,4 +58,4 @@ async function writeCrushFile(content) {
   await fs.writeFile(path.join(__dirname, '..', 'crush.json'), JSON.stringify(content, null, 2));
 }
 
-module.exports = { readCrushFile, writeCrushFile,getsupabase,onePage };
+module.exports = { readCrushFile, writeCrushFile,getsupabase,onePage,addParagrafo };

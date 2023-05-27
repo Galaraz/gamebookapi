@@ -1,4 +1,4 @@
-const { readCrushFile, writeCrushFile,onePage,getsupabase } = require('../model/BookModel');
+const { readCrushFile, writeCrushFile,onePage,getsupabase,addParagrafo } = require('../model/BookModel');
 
 const getAllBooks = async (_req, res) => {
   console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO BUSCAR CRUSHS');
@@ -20,31 +20,31 @@ const getOneBook = async (req, res) => {
     if (!result) {
       return res.status(404).json({ message: 'Página não encontrada' });
     }
-    const bookResult = result.find(({ id }) => id === parseFloat(pageId));
-    console.log(bookResult);
-    if (!bookResult) {
-      return res.status(404).json({ message: 'pagina não encontrada' });
-    }
-
-
-    return res.status(200).json(bookResult);
+    
+    return res.status(200).json(result);
   } catch (error) {
     console.log(`[BOOK CONTROLLER] : buscar => ${error}`);
     res.status(500).json({ message: 'errou ' });
   }
 };
-const addBook = async (req, res) => {
-  console.log('[CRUSH CONTROLLER] : CHAMOU O MÉTODO ADICIONAR UM CRUSH');
-  try {
-    const result = await readCrushFile();
-    const newCrush = { id: !result.length ? 1 : result.length + 1, ...req.body };
-    const newResult = [...result, newCrush];
 
-    await writeCrushFile(newResult);
-    return res.status(201).json(newCrush);
+const addBook = async (req, res) => {
+  console.log('[BOOK CONTROLLER] : CHAMOU O MÉTODO ADICIONAR UM PARAGRAFO');
+  try {
+    const { par_titulo, par_imagem, par_texto, par_id_pagina } = req.body;
+ console.log(req.body,"oque vem da req");
+    const paragrafo = {
+      par_titulo,
+      par_imagem,
+      par_texto,
+      par_id_pagina
+    };
+    await addParagrafo(paragrafo);
+
+    res.status(201).json({ message: 'Parágrafo adicionado com sucesso' });
   } catch (error) {
-    console.log(`[CRUSH CONTROLLER] : buscar => ${error}`);
-    res.status(500).json({ message: 'Crush não adicionado' });
+    console.log(`[BOOK CONTROLLER] : addBook => ${error}`);
+    res.status(500).json({ message: 'Erro ao adicionar o parágrafo' });
   }
 };
 
