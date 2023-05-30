@@ -14,6 +14,7 @@ const getAllBooks = async (_req, res) => {
 const getOneBook = async (req, res) => {
   console.log('[BOOK CONTROLLER] : CHAMOU O MÉTODO BUSCAR UMA PAGINA');
   try {
+    
     const { id: pageId } = req.params;
     const result = await onePage(pageId);
     

@@ -1,12 +1,13 @@
 const express = require('express');
+const cors = require('cors');
 const bodyParser = require('body-parser');
 const BookRoute = require('./routes/BookRoute');
 const LoginRoute = require('./routes/LoginRoute');
 
 const SUCCESS = 200;
 const PORT = '3000';
- 
- const Middlewares = require('./middleware');
+
+const Middlewares = require('./middleware');
 
 const middlewaresCrush = [
   Middlewares.nameMiddleware,
@@ -19,24 +20,23 @@ const middlewaresCrush = [
 const app = express();
 app.use(bodyParser.json());
 
-// não remova esse endpoint, e para o avaliador funcionar
+// não remova esse endpoint, é para o avaliador funcionar
 app.get('/', (_request, response) => {
   response.status(SUCCESS).send();
 });
+
 app.post('/login', Middlewares.emailMiddleware, Middlewares.passwordMiddleware);
-
 app.post('/book');
-// app.post('/book', Middlewares.authMiddleware, middlewaresCrush);
-
 app.get('/book/search', Middlewares.authMiddleware);
-
 app.put('/book/:id', Middlewares.authMiddleware, middlewaresCrush);
-
 app.delete('/book/:id', Middlewares.authMiddleware);
 
 app.use('/login', LoginRoute);
 app.use('/book', BookRoute);
 
+// Configuração do CORS
+app.use(cors());
+
 app.listen(PORT, () => {
-  console.log(`Aplicaçao Online rodando na Porta ${PORT}  `);
+  console.log(`Aplicação Online rodando na Porta ${PORT}`);
 });
