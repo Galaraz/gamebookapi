@@ -19,14 +19,18 @@ const middlewaresCrush = [
 
 const app = express();
 app.use(bodyParser.json());
-
+// Configuração do CORS
+app.use(cors());
 // não remova esse endpoint, é para o avaliador funcionar
-app.get('/', (_request, response) => {
-  response.status(SUCCESS).send();
+app.get('/', (req, res) => {
+  res.header('Access-Control-Allow-Origin', '*');
+  res.header('Access-Control-Allow-Methods', 'GET,PUT,POST,DELETE');
+  res.text(SUCCESS).send();
 });
 
 app.post('/login', Middlewares.emailMiddleware, Middlewares.passwordMiddleware);
 app.post('/book');
+app.get('/book');
 app.get('/book/search', Middlewares.authMiddleware);
 app.put('/book/:id', Middlewares.authMiddleware, middlewaresCrush);
 app.delete('/book/:id', Middlewares.authMiddleware);
@@ -34,8 +38,7 @@ app.delete('/book/:id', Middlewares.authMiddleware);
 app.use('/login', LoginRoute);
 app.use('/book', BookRoute);
 
-// Configuração do CORS
-app.use(cors());
+
 
 app.listen(PORT, () => {
   console.log(`Aplicação Online rodando na Porta ${PORT}`);
